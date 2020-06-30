@@ -710,9 +710,6 @@ int main(int argc, char** argv) {
 
     // pruebas
 
-    map<long double, USER> users1_std_ordered;
-    unordered_map<long double, USER> users1_std_unordered;
-
     double accum = 0.0;
     clock_t timer;
     int ctr;
