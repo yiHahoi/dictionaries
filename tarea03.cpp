@@ -5,8 +5,6 @@
 #include <ctime>
 #include <vector>
 #include <list>
-#include <map>
-#include <unordered_map>
 #include <random>
 
 
@@ -715,9 +713,9 @@ int main(int argc, char** argv) {
     map<long double, USER> users1_std_ordered;
     unordered_map<long double, USER> users1_std_unordered;
 
-    double by_id_timer = 0.0;
-    double by_name_timer = 0.0;
+    double accum = 0.0;
     clock_t timer;
+    int ctr;
 
     // se genera un vector con datos de prueba aleatorios
     // considerando que son 19908 usuarios distintos
@@ -734,32 +732,45 @@ int main(int argc, char** argv) {
     BST test_users1;
     BST test_users2;
 
-    timer = clock();
+    ctr = 0;
+    accum = 0.0;
     for (iter = users.begin(); iter != users.end(); iter++) {
+        timer = clock();
         test_users1.add_by_id(iter->id , *iter);
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (ctr%100==0)
+            cout << "BST ID Insert Time: " << accum << endl;
+        ctr++;
     }
-    cout << "Tiempo total de insert en BST usando ID: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl;
 
-    timer = clock();
+    ctr = 0;
+    accum = 0.0;
     for (iter = users.begin(); iter != users.end(); iter++) {
+        timer = clock();
         test_users2.add_by_name(iter->name , *iter);
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (ctr%100==0)
+            cout << "BST NAME Insert Time: " << accum << endl;
+        ctr++;
     }
-    cout << "Tiempo total de insert en BST usando NAME: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl;
 
-    timer = clock();
+    accum = 0.0;
     for(int i=0; i<total_searches; i++){
+        timer = clock();
         test_users1.search_by_id( users[rand_index[i]].id );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "BST ID Search Time: " << accum << endl;
     }
-    cout << "Tiempo total de busqueda en BST usando ID: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl;
 
-    timer = clock();
+    accum = 0.0;
     for(int i=0; i<total_searches; i++){
+        timer = clock();
         test_users2.search_by_name( users[rand_index[i]].name );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "BST NAME Search Time: " << accum << endl;
     }
-    cout << "Tiempo total de busqueda en BST usando NAME: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl << endl;
-
-    test_users1.clean();
-    test_users2.clean();
 
 
     // OPENED HASH
@@ -767,29 +778,45 @@ int main(int argc, char** argv) {
     OPENED_HASH test_users3;
     OPENED_HASH test_users4;
 
-    timer = clock();
+    ctr = 0;
+    accum = 0.0;
     for (iter = users.begin(); iter != users.end(); iter++) {
+        timer = clock();
         test_users3.add_by_id(iter->id , *iter);
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (ctr%100==0)
+            cout << "OPENED_HASH ID Insert Time: " << accum << endl;
+        ctr++;
     }
-    cout << "Tiempo total de insert en Hash Abierto usando ID: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl;
 
-    timer = clock();
+    ctr = 0;
+    accum = 0.0;
     for (iter = users.begin(); iter != users.end(); iter++) {
+        timer = clock();
         test_users4.add_by_name(iter->name , *iter);
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (ctr%100==0)
+            cout << "OPENED_HASH NAME Insert Time: " << accum << endl;
+        ctr++;
     }
-    cout << "Tiempo total de insert en Hash Abierto usando NAME: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl;
 
-    timer = clock();
+    accum = 0.0;
     for(int i=0; i<total_searches; i++){
+        timer = clock();
         test_users3.search_by_id( users[rand_index[i]].id );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "OPENED_HASH ID Search Time: " << accum << endl;
     }
-    cout << "Tiempo total de busqueda en Hash Abierto usando ID: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl;
 
-    timer = clock();
+    accum = 0.0;
     for(int i=0; i<total_searches; i++){
+        timer = clock();
         test_users4.search_by_name( users[rand_index[i]].name );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "OPENED_HASH NAME Search Time: " << accum << endl;
     }
-    cout << "Tiempo total de busqueda en Hash Abierto usando NAME: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl << endl;
 
 
     // CLOSED HASH
@@ -797,34 +824,117 @@ int main(int argc, char** argv) {
     CLOSED_HASH test_users5;
     CLOSED_HASH test_users6;
 
-    timer = clock();
+    ctr = 0;
+    accum = 0.0;
     for (iter = users.begin(); iter != users.end(); iter++) {
+        timer = clock();
         test_users5.add_by_id(iter->id , *iter);
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (ctr%100==0)
+            cout << "CLOSED_HASH ID Insert Time: " << accum << endl;
+        ctr++;
     }
-    cout << "Tiempo total de insert en Hash Cerrado usando ID: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl;
 
-    timer = clock();
+    ctr = 0;
+    accum = 0.0;
     for (iter = users.begin(); iter != users.end(); iter++) {
+        timer = clock();
         test_users6.add_by_name(iter->name , *iter);
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (ctr%100==0)
+            cout << "CLOSED_HASH NAME Insert Time: " << accum << endl;
+        ctr++;
     }
-    cout << "Tiempo total de insert en Hash Cerrado usando NAME: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl;
 
-    timer = clock();
+    accum = 0.0;
     for(int i=0; i<total_searches; i++){
+        timer = clock();
         test_users5.search_by_id( users[rand_index[i]].id );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "CLOSED_HASH ID Search Time: " << accum << endl;
     }
-    cout << "Tiempo total de busqueda en Hash Cerrado usando ID: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl;
 
-    timer = clock();
+    accum = 0.0;
     for(int i=0; i<total_searches; i++){
+        timer = clock();
         test_users6.search_by_name( users[rand_index[i]].name );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "CLOSED_HASH NAME Search Time: " << accum << endl;
     }
-    cout << "Tiempo total de busqueda en Hash Cerrado usando NAME: " << 1.0*(clock() - timer)/CLOCKS_PER_SEC << endl << endl;
 
+
+    // Impossible Search
+
+    // BST
+
+    accum = 0.0;
+    for(int i=0; i<total_searches; i++){
+        timer = clock();
+        test_users1.search_by_id( 0.050 + users[rand_index[i]].id );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "~ BST ID Search Time: " << accum << endl;
+    }
+
+    accum = 0.0;
+    for(int i=0; i<total_searches; i++){
+        timer = clock();
+        test_users2.search_by_name( users[rand_index[i]].name + string("_?*"));
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "~ BST NAME Search Time: " << accum << endl;
+    }
+
+
+    // OPENED HASH
+
+    accum = 0.0;
+    for(int i=0; i<total_searches; i++){
+        timer = clock();
+        test_users3.search_by_id( 0.050 +  users[rand_index[i]].id );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "~ OPENED_HASH ID Search Time: " << accum << endl;
+    }
+
+    accum = 0.0;
+    for(int i=0; i<total_searches; i++){
+        timer = clock();
+        test_users4.search_by_name( users[rand_index[i]].name + string("_?*") );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "~ OPENED_HASH NAME Search Time: " << accum << endl;
+    }
+
+
+    // CLOSED HASH
+
+    accum = 0.0;
+    for(int i=0; i<total_searches; i++){
+        timer = clock();
+        test_users5.search_by_id( 0.050 +  users[rand_index[i]].id );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "~ CLOSED_HASH ID Search Time: " << accum << endl;
+    }
+
+    accum = 0.0;
+    for(int i=0; i<total_searches; i++){
+        timer = clock();
+        test_users6.search_by_name( users[rand_index[i]].name + string("_?*") );
+        accum += (double)(clock() - timer)/CLOCKS_PER_SEC;
+        if (i%1000==0)
+            cout << "~ CLOSED_HASH NAME Search Time: " << accum << endl;
+    }
 
     //for(int i=0; i<total_searches; i++){
     //    test_users6.print_by_name( users[rand_index[i]].name );
     //}
+
+    test_users1.clean();
+    test_users2.clean();
 
     return(0);
 
